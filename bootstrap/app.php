@@ -22,11 +22,14 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
-
+$app->register('Nord\Lumen\Cors\CorsServiceProvider');
 // $app->withFacades();
 
 // $app->withEloquent();
-
+$app->middleware([
+	.....
+	'Nord\Lumen\Cors\CorsMiddleware',
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
