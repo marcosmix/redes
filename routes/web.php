@@ -4,3 +4,5 @@
 
 
 $router->get('/','HomeController@index');
+$router->get('/buscar/tw/{frase}', 'BusquedasController@BuscarFraseTwitter');
+
