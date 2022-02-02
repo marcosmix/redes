@@ -27,7 +27,7 @@ $app->register('Nord\Lumen\Cors\CorsServiceProvider');
 
 // $app->withEloquent();
 $app->middleware([
-	.....
+
 	'Nord\Lumen\Cors\CorsMiddleware',
 ]);
 /*
