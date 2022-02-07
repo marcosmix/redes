@@ -39,7 +39,7 @@ class Tratamiento extends Controller{
                 //'menciones' => $tw->menciones,
                 'hashtag' =>Tratamiento::Hashctac($tw->entities->hashtags),
                 'fecha' => $tw->created_at,
-                'menciones' =>"usuario mensionado",
+                'menciones' =>"usuario mencionado",
                 'id_str' => $tw->id_str,
                 'name' => $tw->user->name,
                 //'screen_name' => $tw->screen_name,
