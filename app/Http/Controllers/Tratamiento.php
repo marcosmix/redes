@@ -27,16 +27,14 @@ class Tratamiento extends Controller{
     {
         switch($mes)
         {
-            
+
         }
     }
     static public function FormateoFecha($fecha)
     {
         $fecha_array=explode(' ',$fecha);
-        $Fecha_DDMMAAAA=[$fecha_array[2],$fecha_array[1],$fecha_array[5]];
-        var_dump($Fecha_DDMMAAAA);
         
-        die;
+        return $Fecha_DDMMAAAA = [$fecha_array[2], $fecha_array[1], $fecha_array[5]];
     }
     static public function ConsultaBusquedaTwitter($consulta)
     {
