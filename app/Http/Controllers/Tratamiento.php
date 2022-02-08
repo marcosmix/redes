@@ -43,12 +43,14 @@ class Tratamiento extends Controller{
 
         foreach($consulta->statuses as $tw)
         {
-           // var_dump($tw->entities->urls[0]->url);die;
-          
+            //$url=($tw->entities->urls[0]->url);
+            //echo $url;
+           /// die;
+        
             $twitt=[
                 'id_twitt' => $tw->id,
                 'id_twitt' => $tw->user->id,
-                'url' => $tw->entities->urls[0]->url,
+                //'url' => $url,
                 'cuerpo' => $tw->text,
                 //'menciones' => $tw->menciones,
                 'hashtag' =>Tratamiento::Hashctac($tw->entities->hashtags),
