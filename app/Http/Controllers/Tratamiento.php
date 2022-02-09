@@ -36,6 +36,31 @@ class Tratamiento extends Controller{
         
         return $Fecha_DDMMAAAA = [$fecha_array[2], $fecha_array[1], $fecha_array[5]];
     }
+
+    static public function ConvertirFraseEnConsulta($frase)
+    {
+        $query=$frase[0];
+        $N=count($frase);
+
+        for($i=1;$i<$N-1;$i++)
+        $query=$query."%20".$frase[$i];
+
+        if($N>1)
+        $query= $query . "%20" . $frase[$N-1];
+
+        //echo $query;die;
+        return $query;
+    }
+
+    static public function Menciones($menciones)
+    {
+        
+        $usuarios_menciondos=array();
+        foreach($menciones as $mencion)
+             array_push($usuarios_menciondos,$mencion->name);
+        return $usuarios_menciondos;
+    }
+
     static public function ConsultaBusquedaTwitter($consulta)
     {
         $consulta_tratada=array();
@@ -43,23 +68,20 @@ class Tratamiento extends Controller{
 
         foreach($consulta->statuses as $tw)
         {
-            //$url=($tw->entities->urls[0]->url);
-            //echo $url;
-           /// die;
-        
+            $url="";
+            if(isset($tw->entities->urls[0]->url))
+            $url= urldecode($tw->entities->urls[0]->url);
+            
             $twitt=[
                 'id_twitt' => $tw->id,
                 'id_twitt' => $tw->user->id,
-                //'url' => $url,
+                'url' => $url,
                 'cuerpo' => $tw->text,
-                //'menciones' => $tw->menciones,
+                'menciones' => Tratamiento::Menciones($tw->entities->user_mentions),
                 'hashtag' =>Tratamiento::Hashctac($tw->entities->hashtags),
                 'fecha' =>Tratamiento::FormateoFecha($tw->created_at),
-                'menciones' =>"usuario mencionado",
                 'id_str' => $tw->id_str,
                 'name' => $tw->user->name,
-                //'screen_name' => $tw->screen_name,
-                //'description' => $tw->description
                 
             ];
             array_push($consulta_tratada,$twitt);
