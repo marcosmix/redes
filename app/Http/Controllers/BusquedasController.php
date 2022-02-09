@@ -37,7 +37,7 @@ class BusquedasController extends Controller
         $query=Tratamiento::ConvertirFraseEnConsulta($frase=$this->ConvertirCadena_Array($frase));
 
     
-        $consulta = $connection->get("search/tweets", ['q' =>$query, 'count'=>25, 'exclude_replies' => true]);
+        $consulta = $connection->get("search/tweets", ['q' =>$query, 'count'=>100, 'exclude_replies' => true]);
         
         return response()->json(Tratamiento::ConsultaBusquedaTwitter($consulta));
     }
