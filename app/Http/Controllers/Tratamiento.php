@@ -90,9 +90,25 @@ class Tratamiento extends Controller{
             ];
             array_push($consulta_tratada,$twitt);
         }
-     
-        return $consulta_tratada;
-        
+
+        $estadistica=[
+            'palabrasClaves'=>array(
+                            ['palabra'=>'palabra1',
+                            'cantidad' => 12],
+            [
+                'palabra2' => 'palabra2',
+                'cantidad' => 8
+            ],
+            [
+                'palabra3' => 'palabra3',
+                'cantidad' => 2
+            ]
+                            )   
+            ];
+
+        $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica];
+        //return $consulta_tratada;
+        return $data;
     }
 
 }
