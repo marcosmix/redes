@@ -96,11 +96,11 @@ class Tratamiento extends Controller{
                             ['palabra'=>'palabra1',
                             'cantidad' => 12],
             [
-                'palabra2' => 'palabra2',
+                'palabra' => 'palabra2',
                 'cantidad' => 8
             ],
             [
-                'palabra3' => 'palabra3',
+                'palabra' => 'palabra3',
                 'cantidad' => 2
             ]
                             )   
