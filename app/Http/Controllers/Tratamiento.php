@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 
 
@@ -32,9 +33,12 @@ class Tratamiento extends Controller{
     }
     static public function FormateoFecha($fecha)
     {
-        $fecha_array=explode(' ',$fecha);
+        $fecha=new DateTime($fecha);
+        $fecha=$fecha->format('d-m-Y');
+        $fecha_array=explode('-',$fecha);
+        $fecha_array=implode("/",$fecha_array);
         
-        return $Fecha_DDMMAAAA = [$fecha_array[2], $fecha_array[1], $fecha_array[5]];
+        return $fecha_array;
     }
 
     static public function ConvertirFraseEnConsulta($frase)
