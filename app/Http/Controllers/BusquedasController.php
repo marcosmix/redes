@@ -32,7 +32,8 @@ class BusquedasController extends Controller
         $resultados=array();
         $resultadosUnificados=array();
 
-        for($i=0;$i<$D;$i++)
+        array_push($resultados, $connection->get("search/tweets", ['q' => $query, 'count' => $cantPorFecha, 'exclude_replies' => true, 'lang' => 'es', 'until' => date("Y-m-d", strtotime($fecha . "+1days"))]));
+        for($i=1;$i<$D;$i++)
             array_push($resultados,$connection->get("search/tweets", ['q' => $query, 'count' =>$cantPorFecha, 'exclude_replies' => true, 'lang' => 'es','until'=>date("Y-m-d",strtotime($fecha."-".$i."days"))]));
 
         $resultadosUnificados=$resultados[0]->statuses;
