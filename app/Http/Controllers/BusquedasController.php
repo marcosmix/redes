@@ -25,20 +25,31 @@ class BusquedasController extends Controller
     }
 
 
+    public function ultimosDias($connection,$query, $D = 3,$cantPorFecha=15)
+    {
+        date_default_timezone_set('America/Argentina/San_Juan');
+        $fecha=date("Y-m-d");
+        $resultados=array();
+        $resultadosUnificados=array();
 
+        for($i=0;$i<$D;$i++)
+            array_push($resultados,$connection->get("search/tweets", ['q' => $query, 'count' =>$cantPorFecha, 'exclude_replies' => true, 'lang' => 'es','until'=>date("Y-m-d",strtotime($fecha."-".$i."days"))]));
+
+        $resultadosUnificados=$resultados[0]->statuses;
+        for($i=0;$i<$D-1;$i++)
+        array_merge((array)$resultadosUnificados,(array)$resultados[$i]->statuses);
+
+        return $resultados;
+    }
 
     public function testBuscarFraseTwitter($frase = 'vacio')
     {
        
         $connection=ConexionController::ConectarTwitter();
-        $content = $connection->get("account/verify_credentials");
-        //esto funciona 
+        //$content = $connection->get("account/verify_credentials");
         //$consulta=$connection->get('statuses/home_timeline',['count'=>25,'exclude_replies'=>true]);
-        $query=Tratamiento::ConvertirFraseEnConsulta($frase=$this->ConvertirCadena_Array($frase));
 
-    
-        $consulta = $connection->get("search/tweets", ['q' =>$query, 'count'=>50, 'exclude_replies' => true, 'start_time'=>'2022-02-09','end_time'=> '2022-02-10']);
-        
-        return response()->json(Tratamiento::ConsultaBusquedaTwitter($consulta));
+        $query=Tratamiento::ConvertirFraseEnConsulta($frase=$this->ConvertirCadena_Array($frase));
+        return response()->json(Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query)));
     }
 }

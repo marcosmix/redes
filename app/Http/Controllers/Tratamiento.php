@@ -65,11 +65,11 @@ class Tratamiento extends Controller{
         return $usuarios_menciondos;
     }
 
-    static public function ConsultaBusquedaTwitter($consulta)
+    static public function ConsultaBusquedaTwitter($consultas)
     {
         $consulta_tratada=array();
         
-
+        foreach($consultas as $consulta)
         foreach($consulta->statuses as $tw)
         {
             $url="";
@@ -78,7 +78,7 @@ class Tratamiento extends Controller{
             
             $twitt=[
                 'id_twitt' => $tw->id,
-                'id_twitt' => $tw->user->id,
+                'id_user' => $tw->user->id,
                 'url' => $url,
                 'cuerpo' => $tw->text,
                 'menciones' => Tratamiento::Menciones($tw->entities->user_mentions),
@@ -86,7 +86,11 @@ class Tratamiento extends Controller{
                 'fecha' =>Tratamiento::FormateoFecha($tw->created_at),
                 'id_str' => $tw->id_str,
                 'name' => $tw->user->name,
-                
+                'name' => $tw->user->screen_name,
+                'foto_perfil'=>$tw->user->profile_image_url,
+                'retweet'=> $tw->retweet_count,
+                'likes'=> $tw->favorite_count,
+
             ];
             array_push($consulta_tratada,$twitt);
         }
