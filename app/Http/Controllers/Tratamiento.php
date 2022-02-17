@@ -65,10 +65,27 @@ class Tratamiento extends Controller{
         return $usuarios_menciondos;
     }
 
+    static public function UnificarResultados($resultados)
+    {
+        $D=count($resultados);die;
+
+        $resultadosUnificados = $resultados[0]->statuses;
+        for ($i = 0; $i < $D - 1; $i++)
+            array_merge((array)$resultadosUnificados, (array)$resultados[$i]->statuses);
+    }
+
+    static public function OrdenarResultadosTwitter($twtts,$presicion=15,$parametro="retweet")
+    {
+        var_dump($twtts);die;
+        
+    }
+
     static public function ConsultaBusquedaTwitter($consultas)
     {
         $consulta_tratada=array();
         
+        //var_dump(Tratamiento::UnificarResultados($consultas));
+
         foreach($consultas as $consulta)
         foreach($consulta->statuses as $tw)
         {
@@ -86,7 +103,7 @@ class Tratamiento extends Controller{
                 'fecha' =>Tratamiento::FormateoFecha($tw->created_at),
                 'id_str' => $tw->id_str,
                 'name' => $tw->user->name,
-                'name' => $tw->user->screen_name,
+                'name_screen' => $tw->user->screen_name,
                 'foto_perfil'=>$tw->user->profile_image_url,
                 'retweet'=> $tw->retweet_count,
                 'likes'=> $tw->favorite_count,

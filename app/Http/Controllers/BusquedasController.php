@@ -24,8 +24,26 @@ class BusquedasController extends Controller
         return explode('%20',$frase);
     }
 
+    private function OrdenarResultadosTwitter($query, $presicion = 15, $parametro = "retweet_count")
+    {
+        
+        $aux = null;
+        $N=count($query);
+        
+        for($i=0;$i<$N-1;$i++)
+            for($j=0;$j<$N-$i-1;$j++)
+                if($query[$j]->retweet_count<$query[$j+1]->retweet_count)
+                {
+                    $aux=$query[$j]->retweet_count;
+                    $query[$j]->retweet_count= $query[$j+1]->retweet_count;
+                    $query[$j+1]->retweet_count = $aux;
+                }     
 
-    public function ultimosDias($connection,$query, $D = 3,$cantPorFecha=15)
+        
+        return array_slice($query,0,$presicion);             
+    }
+
+    public function ultimosDias($connection,$query, $D = 3,$cantPorFecha=50)
     {
         date_default_timezone_set('America/Argentina/San_Juan');
         $fecha=date("Y-m-d");
@@ -36,6 +54,9 @@ class BusquedasController extends Controller
         for($i=1;$i<$D;$i++)
             array_push($resultados,$connection->get("search/tweets", ['q' => $query, 'count' =>$cantPorFecha, 'exclude_replies' => true, 'lang' => 'es','until'=>date("Y-m-d",strtotime($fecha."-".$i."days"))]));
 
+        foreach($resultados as $r)
+        $r->statuses=$this->OrdenarResultadosTwitter($r->statuses); 
+        
         $resultadosUnificados=$resultados[0]->statuses;
         for($i=0;$i<$D-1;$i++)
         array_merge((array)$resultadosUnificados,(array)$resultados[$i]->statuses);
@@ -45,12 +66,10 @@ class BusquedasController extends Controller
 
     public function testBuscarFraseTwitter($frase = 'vacio')
     {
-       
         $connection=ConexionController::ConectarTwitter();
-        //$content = $connection->get("account/verify_credentials");
-        //$consulta=$connection->get('statuses/home_timeline',['count'=>25,'exclude_replies'=>true]);
-
+        
         $query=Tratamiento::ConvertirFraseEnConsulta($frase=$this->ConvertirCadena_Array($frase));
+
         return response()->json(Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query)));
     }
 }
