@@ -89,6 +89,7 @@ class Tratamiento extends Controller{
         foreach($consultas as $consulta)
         foreach($consulta->statuses as $tw)
         {
+            
             $url="";
             if(isset($tw->entities->urls[0]->url))
             $url= urldecode($tw->entities->urls[0]->url);
