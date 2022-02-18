@@ -98,6 +98,7 @@ class Tratamiento extends Controller{
                 'id_twitt' => $tw->id,
                 'id_user' => $tw->user->id,
                 'url' => $url,
+                'url_user'=> "https://twitter.com/{$tw->user->screen_name}",
                 'cuerpo' => $tw->text,
                 'menciones' => Tratamiento::Menciones($tw->entities->user_mentions),
                 'hashtag' =>Tratamiento::Hashctac($tw->entities->hashtags),
