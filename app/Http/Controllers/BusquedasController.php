@@ -48,12 +48,12 @@ class BusquedasController extends Controller
         $fecha = date("Y-m-d");
         $resultados = array();
         $resultadosUnificados = array();
-       var_dump(date("Y-m-d", strtotime($fecha . "+1days")));
+       //var_dump(date("Y-m-d", strtotime($fecha . "+1days")));
        
        array_push($resultados, $connection->get("search/tweets", ['q' => $query, 'count' => $cantPorFecha, 'exclude_replies' => true, 'lang' => 'es', 'until' => date("Y-m-d", strtotime($fecha . "+1days"))]));
         for ($i = 0; $i < $D-1; $i++)
         {
-            var_dump(date("Y-m-d", strtotime($fecha . "-" . $i . "days")));
+            //var_dump(date("Y-m-d", strtotime($fecha . "-" . $i . "days")));
             array_push($resultados, $connection->get("search/tweets", ['q' => $query, 'count' => $cantPorFecha, 'exclude_replies' => true, 'lang' => 'es', 'until' => date("Y-m-d", strtotime($fecha . "-" . $i . "days"))]));
         }
         
