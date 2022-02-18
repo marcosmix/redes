@@ -90,9 +90,9 @@ class Tratamiento extends Controller{
         foreach($consulta->statuses as $tw)
         {
             
-            $url="";
-            if(isset($tw->entities->urls[0]->url))
-            $url= urldecode($tw->entities->urls[0]->url);
+            $url="https://twitter.com/". $tw->user->screen_name."/status/{$tw->id}";
+            //if(isset($tw->entities->urls[0]->url))
+            //$url= urldecode($tw->entities->urls[0]->url);
             
             $twitt=[
                 'id_twitt' => $tw->id,
