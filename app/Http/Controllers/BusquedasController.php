@@ -24,20 +24,34 @@ class BusquedasController extends Controller
         return explode('%20', $frase);
     }
 
-    private function OrdenarResultadosTwitter($query, $presicion = 15, $parametro = "retweet_count")
+    private function OrdenarResultadosTwitter($query, $presicion = 15, $parametro = "retweet_count",$parametro2='')
     {
-
+        
         $aux = null;
         $N = count($query);
-
+        
         for ($i = 0; $i < $N - 1; $i++)
             for ($j = 0; $j < $N - $i - 1; $j++)
+            {
                 if ($query[$j]->retweet_count < $query[$j + 1]->retweet_count) {
-                    $aux = $query[$j];
-                    $query[$j] = $query[$j + 1];
-                    $query[$j + 1]= $aux;
-                }
+                    if ($query[$j]->retweet_count < $query[$j + 1]->retweet_count) {
+                        $aux = $query[$j];
+                        $query[$j] = $query[$j + 1];
+                        $query[$j + 1]= $aux;}
+                        
+                      
+                        
+                    }
 
+                if ($query[$j]->retweet_count == $query[$j + 1]->retweet_count)
+                if ($query[$j]->favorite_count < $query[$j + 1]->favorite_count) {
+                         $aux = $query[$j];
+                        $query[$j] = $query[$j + 1];
+                        $query[$j + 1] = $aux;
+                    }
+                 
+            }
+            
 
         return array_slice($query, 0, $presicion);
     }
@@ -49,6 +63,7 @@ class BusquedasController extends Controller
         $resultados = array();
         $resultadosUnificados = array();
        //var_dump(date("Y-m-d", strtotime($fecha . "+1days")));
+       
        
        array_push($resultados, $connection->get("search/tweets", ['q' => $query, 'count' => $cantPorFecha, 'exclude_replies' => true, 'lang' => 'es', 'until' => date("Y-m-d", strtotime($fecha . "+1days"))]));
         for ($i = 0; $i < $D-1; $i++)

@@ -108,7 +108,7 @@ class Tratamiento extends Controller{
                 'name_screen' => $tw->user->screen_name,
                 'foto_perfil'=>$tw->user->profile_image_url,
                 'retweet'=> $tw->retweet_count,
-                'likes'=> $tw->favorite_count,
+                'likes'=> $tw->retweeted_status->favorite_count,
 
             ];
             array_push($consulta_tratada,$twitt);
