@@ -93,7 +93,8 @@ class Tratamiento extends Controller{
             $url="https://twitter.com/". $tw->user->screen_name."/status/{$tw->id}";
             //if(isset($tw->entities->urls[0]->url))
             //$url= urldecode($tw->entities->urls[0]->url);
-            
+
+        
             $twitt=[
                 'id_twitt' => $tw->id,
                 'id_user' => $tw->user->id,
@@ -108,7 +109,7 @@ class Tratamiento extends Controller{
                 'name_screen' => $tw->user->screen_name,
                 'foto_perfil'=>$tw->user->profile_image_url,
                 'retweet'=> $tw->retweet_count,
-                'likes'=> $tw->retweeted_status->favorite_count,
+                'likes'=> isset($tw->retweeted_status->favorite_count)? $tw->retweeted_status->favorite_count : $tw->favorite_count,
 
             ];
             array_push($consulta_tratada,$twitt);
