@@ -24,6 +24,36 @@ class BusquedasController extends Controller
         return explode('%20', $frase);
     }
 
+    private function EliminarRepetidos($query,$parametro= 'text')
+    {
+        $N = count($query);
+
+        $array_sin_repetir=[];
+        $query_sin_repetir=[];
+
+        for ($i = 0; $i < $N - 2; $i++)
+            if(!array_key_exists($query[$i]->text,$array_sin_repetir))
+                {
+                    $array_sin_repetir[$query[$i]->text]=$i;
+                    $query_sin_repetir[]=$query[$i];
+                }
+
+        
+        return $query_sin_repetir;
+
+        //     if($query[$i]->text== $query[$i+1]->text)
+        //     {
+        //         unset($query[$i+1]);
+        //         //var_dump($query[$i]->text);
+        //         //var_dump($query[$i+1]->text);
+        //         //die;
+        //     }
+
+        // }
+
+        return $query;
+    }
+
     private function OrdenarResultadosTwitter($query, $presicion = 15, $parametro = "retweet_count",$parametro2='')
     {
         
@@ -39,8 +69,6 @@ class BusquedasController extends Controller
                         $query[$j] = $query[$j + 1];
                         $query[$j + 1]= $aux;}
                         
-                      
-                        
                     }
 
                 if ($query[$j]->retweet_count == $query[$j + 1]->retweet_count)
@@ -51,8 +79,8 @@ class BusquedasController extends Controller
                     }
                  
             }
-            
 
+        $query=$this->EliminarRepetidos($query);
         return array_slice($query, 0, $presicion);
     }
 
