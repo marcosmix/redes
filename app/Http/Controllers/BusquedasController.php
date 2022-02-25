@@ -30,13 +30,21 @@ class BusquedasController extends Controller
         
         $conteo_palabras=[];
 
+        $array_sin_repetir=[];
+
         foreach($query as $tw)
         {
             $text= explode(" ", strtolower($tw->text));
             var_dump($text);
+
+            foreach($text as $palabra)
+            if (!array_key_exists($palabra, $array_sin_repetir)) 
+                $array_sin_repetir[$palabra] += 1;
+
+            
+            var_dump($text);die;
         }
 
-        
     }
 
     private function EliminarRepetidos($query,$parametro= 'text')
