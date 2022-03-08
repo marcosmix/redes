@@ -15,6 +15,22 @@ class Tratamiento extends Controller{
        return $twts;
     }
 
+    static public function ContarPalabras($query, $conteo_palabras = [])
+    {
+        foreach ($query as $tw) {
+            $text = explode(" ", strtolower($tw->text));
+
+            foreach ($text as $palabra)
+                if (!array_key_exists($palabra, $conteo_palabras))
+                    $conteo_palabras[$palabra] = 1;
+                else
+                    $conteo_palabras[$palabra] += 1;
+            
+        }
+        
+        return $conteo_palabras;
+    }
+
     static public function Hashctac($array)
     {
         $hashtac=array();
@@ -80,11 +96,16 @@ class Tratamiento extends Controller{
         
     }
 
-    static public function ConsultaBusquedaTwitter($consultas)
+    static public function ConsultaBusquedaTwitter($query)
     {
         $consulta_tratada=array();
         
         //var_dump(Tratamiento::UnificarResultados($consultas));
+        
+        $consultas=$query[0];
+        $conteo_likes = 0;
+        $conteo_retewtts = 0;
+
 
         foreach($consultas as $consulta)
         foreach($consulta->statuses as $tw)
@@ -113,21 +134,16 @@ class Tratamiento extends Controller{
 
             ];
             array_push($consulta_tratada,$twitt);
+            $conteo_likes += $twitt['retweet'];
+            $conteo_retewtts += $twitt['likes'];
         }
         
+        
+
         $estadistica=[
-            'palabrasClaves'=>array(
-                            ['palabra'=>'palabra1',
-                            'cantidad' => 12],
-            [
-                'palabra' => 'palabra2',
-                'cantidad' => 8
-            ],
-            [
-                'palabra' => 'palabra3',
-                'cantidad' => 2
-            ]
-                            )   
+            'palabrasClaves'=> $query['estadisticas'],
+            'likes'=>$conteo_likes,
+            'retweet' => $conteo_retewtts,
             ];
 
         $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica];
