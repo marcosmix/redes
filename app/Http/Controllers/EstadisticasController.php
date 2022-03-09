@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use PhpParser\Node\Stmt\Foreach_;
 
 class EstadisticasController extends Controller{
 
@@ -57,6 +57,23 @@ class EstadisticasController extends Controller{
         $listado['words'] = EstadisticasController::Ordenamiento($listado['words']);  
         
         return $listado; 
+    }
+
+    static public function SacarPrcentajesPalabrasclabes($listado)
+    {
+        $listado['hashtag'] = EstadisticasController::CalculoPorcentajePorArray($listado['hashtag']);
+        $listado['mentions'] = EstadisticasController::CalculoPorcentajePorArray($listado['mentions']);
+        $listado['words'] = EstadisticasController::CalculoPorcentajePorArray($listado['words']);  
+       
+        return $listado;
+    }
+
+    static public function CalculoPorcentajePorArray($array)
+    {
+        $N=count($array);
+        for($i=0;$i<$N;$i++)
+          $array[$i]['cantidad'] =   round($array[$i]['cantidad'] *100/ $N);
+        return $array;
     }
 
     static public function Ordenamiento($listado)

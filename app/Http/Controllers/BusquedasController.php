@@ -96,8 +96,9 @@ class BusquedasController extends Controller
         foreach ($resultados as $r)
             $conteo_palabras = Tratamiento::ContarPalabras($r->statuses, $conteo_palabras);
 
-        $resultados_estadisticas = EstadisticasController::SepararConteoTwitter($conteo_palabras);
-
+            $resultados_estadisticas = EstadisticasController::SepararConteoTwitter($conteo_palabras);
+            $resultados_estadisticas =EstadisticasController::SacarPrcentajesPalabrasclabes($resultados_estadisticas);
+            
         $resultados_estadisticas= EstadisticasController::OrdenarResultadosTwitter($resultados_estadisticas);
 
        $resultados_estadisticas=EstadisticasController::AcortarResultados($resultados_estadisticas,5);

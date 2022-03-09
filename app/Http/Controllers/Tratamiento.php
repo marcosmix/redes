@@ -15,6 +15,8 @@ class Tratamiento extends Controller{
        return $twts;
     }
 
+   
+
     static public function ContarPalabras($query, $conteo_palabras = [])
     {
         foreach ($query as $tw) {
@@ -144,6 +146,7 @@ class Tratamiento extends Controller{
             'palabrasClaves'=> $query['estadisticas'],
             'likes'=>$conteo_likes,
             'retweet' => $conteo_retewtts,
+
             ];
 
         $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica];
