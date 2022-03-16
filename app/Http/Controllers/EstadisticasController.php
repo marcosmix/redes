@@ -106,5 +106,21 @@ class EstadisticasController extends Controller{
         return $listado; 
     }
 
+    static public function SumarCantidades($listado)
+    {
+        // var_dump($listado);die;
+        $total=0;
+        foreach($listado as $item)
+            $total+=$item['cantidad'];
+        return $total;
+    }
+
+    static public function AgregarTotalesListadoPalabras($listado)
+    {
+        $listado['CantidadTotalHasgtag']=EstadisticasController::SumarCantidades($listado['hashtag']);
+        $listado['CantidadTotalMentions'] = EstadisticasController::SumarCantidades($listado['mentions']);
+        $listado['CantidadTotalWords'] = EstadisticasController::SumarCantidades($listado['words']);
+        return $listado;
+    }
 
 }

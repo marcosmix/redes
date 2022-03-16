@@ -104,7 +104,7 @@ class BusquedasController extends Controller
        $resultados_estadisticas=EstadisticasController::AcortarResultados($resultados_estadisticas,5);
 
       
-        
+        $resultados_estadisticas=EstadisticasController::AgregarTotalesListadoPalabras($resultados_estadisticas);
         //----------------------------------
 
         $resultadosUnificados = $resultados[0]->statuses;
