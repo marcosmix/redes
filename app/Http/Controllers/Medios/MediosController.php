@@ -23,11 +23,14 @@ class MediosController extends  BaseController
     public function FitrarPorBuscqueda($frase)
     {
         $listado_twitts_con_coincidencias=[];
-
+       
         foreach($this->listadoResultadoMedios as $listado_twitts)
         foreach($listado_twitts as $twitt)
+        {    
             if(Medios::BuscarFrase($twitt,$frase))
-            array_push($listado_twitts_con_coincidencias,$twitt);
+                array_push($listado_twitts_con_coincidencias,$twitt);
+        }
+            
         return $listado_twitts_con_coincidencias;       
     }
 }

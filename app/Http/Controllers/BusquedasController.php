@@ -118,11 +118,11 @@ class BusquedasController extends Controller
 
     public function testBuscarFraseTwitter($frase = 'vacio')
     {
-        $frase_medios=$frase;
+        $frase_medios=urldecode($frase);
+       
         $connection = ConexionController::ConectarTwitter();
 
         $query = Tratamiento::ConvertirFraseEnConsulta($frase = $this->ConvertirCadena_Array($frase));
-
         $query_usuarios_con_medios=Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query));
         //agregar resultados de medios ------------------------------------------
        
@@ -141,7 +141,7 @@ class BusquedasController extends Controller
         {
             $query= $connection->get("statuses/user_timeline", 
             ['screen_name' => $diario,'count'=>100]);
-          
+         
             $ControlMedios->Add_Resulado_Lista_De_Medios($query);
         }
 

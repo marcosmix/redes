@@ -47,14 +47,23 @@ class Medios
 
     static public function BuscarFrase($twitt, $frase)
     {
-         
-        $posicion_coincidencia = strrpos($twitt['cuerpo'], $frase);
-
-
+        // var_dump($twitt['cuerpo']);
+        //  var_dump($frase);
+        // var_dump(strrpos('hola como estas alberto cuerpo', $frase));
+      
+       // $posicion_coincidencia_2=strstr($twitt['cuerpo'], $frase);
+        $posicion_coincidencia = stripos($twitt['cuerpo'], $frase,0);
+        //$posicion_coincidencia = strrpos('hola como estas alberto cuerpo','Alberto');
+        
+        //var_dump($posicion_coincidencia_2);
+       // echo "este es el comun";
+       // var_dump($posicion_coincidencia);
+        
         if ($posicion_coincidencia === false)
         return false;
-        else
-        return true;
+        else return true;
+        
+        //return $posicion_coincidencia;
     }
 }
 
