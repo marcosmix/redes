@@ -112,8 +112,9 @@ class EstadisticasController extends Controller
 
         foreach($listado as $palabra){
          if (strlen($palabra['palabra']) > 3||$palabra['palabra']=='fmi' || $palabra['palabra'] == 'FMI') 
-            if(!str_starts_with($palabra['palabra'], 'https'))
-                $filtro_basura[$palabra['palabra']]=$palabra;
+            if($palabra['palabra'] != 'para'&& $palabra['palabra'] != 'fmi,')
+                if(!str_starts_with($palabra['palabra'], 'https'))
+                 $filtro_basura[$palabra['palabra']]=$palabra;
         }
 
         foreach($filtro_basura as $key)
