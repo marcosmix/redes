@@ -46,12 +46,15 @@ class EstadisticasController extends Controller
     static public function  NormalizarResultados($resultado)
     {
         $resultados_normalizados = [];
-
+        
+        
+                        
 
         foreach ($resultado as $r)
             foreach ($r as $key => $a)
                 array_push($resultados_normalizados, ['palabra' => $key, 'cantidad' => $a]);
-
+                   
+        
         return $resultados_normalizados;
     }
 
@@ -86,6 +89,8 @@ class EstadisticasController extends Controller
         $aux = null;
         $N = count($listado);
 
+      
+
         for ($i = 0; $i < $N - 1; $i++)
             for ($j = 0; $j < $N - $i - 1; $j++)
                 if ($listado[$j]['cantidad'] < $listado[$j + 1]['cantidad']) {
@@ -99,9 +104,31 @@ class EstadisticasController extends Controller
         return $listado;
     }
 
+    static public function FiltrarPalabrasBasura($listado)
+    {
+       //var_dump($listado);
+        $filtro_basura=[];
+        $filtro_basura_array=[];
+
+        foreach($listado as $palabra){
+         if (strlen($palabra['palabra']) > 3||$palabra['palabra']=='fmi' || $palabra['palabra'] == 'FMI') 
+            if(!str_starts_with($palabra['palabra'], 'https'))
+                $filtro_basura[$palabra['palabra']]=$palabra;
+        }
+
+        foreach($filtro_basura as $key)
+        array_push($filtro_basura_array,$key);
+        
+      
+        return $filtro_basura_array;
+
+    }
+
     static public function AcortarResultados($listado, $cantidad = 5)
     {
 
+        $listado['words']=EstadisticasController::FiltrarPalabrasBasura($listado['words']);
+        
         $listado['hashtag'] = array_slice($listado['hashtag'], 0, $cantidad);
         $listado['mentions'] = array_slice($listado['mentions'], 0, $cantidad);
         $listado['words'] = array_slice($listado['words'], 0, $cantidad);
