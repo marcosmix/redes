@@ -204,7 +204,7 @@ class Tratamiento extends Controller{
             ]
             ];
 
-        $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica,'listadoMedios'=>$listadoMedios];
+        $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica];
         //return $consulta_tratada;
         return $data;
     }

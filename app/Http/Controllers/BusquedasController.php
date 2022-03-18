@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Tratamiento;
 use App\Http\Controllers\ConexionController;
 use App\Http\Controllers\EstadisticasController;
-
+use App\Models\Medios;
+use App\Http\Controllers\Medios\MediosController;
 class BusquedasController extends Controller
 {
     public function abaut()
@@ -117,13 +118,37 @@ class BusquedasController extends Controller
 
     public function testBuscarFraseTwitter($frase = 'vacio')
     {
+        $frase_medios=$frase;
         $connection = ConexionController::ConectarTwitter();
 
         $query = Tratamiento::ConvertirFraseEnConsulta($frase = $this->ConvertirCadena_Array($frase));
 
+        $query_usuarios_con_medios=Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query));
+        //agregar resultados de medios ------------------------------------------
+       
+       
+        $query_usuarios_con_medios['listadoMedios']= $this->BuscarFrasTwitterMedios($frase_medios);
         return response()->json(Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query)));
     }
 
+    public function BuscarFrasTwitterMedios($frase='Hola')
+    {
+        $connection = ConexionController::ConectarTwitter();
+        
+        $ControlMedios=new MediosController();
+
+        foreach($ControlMedios->GetListadoMedios() as $diario)
+        {
+            $query= $connection->get("statuses/user_timeline", 
+            ['screen_name' => $diario,'count'=>100]);
+          
+            $ControlMedios->Add_Resulado_Lista_De_Medios($query);
+        }
+
+
+
+        return $ControlMedios->FitrarPorBuscqueda($frase);
+    }
    
 
 }
