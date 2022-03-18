@@ -128,7 +128,7 @@ class BusquedasController extends Controller
        
        
         $query_usuarios_con_medios['listadoMedios']= $this->BuscarFrasTwitterMedios($frase_medios);
-        return response()->json(Tratamiento::ConsultaBusquedaTwitter($this->ultimosDias($connection, $query)));
+        return response()->json($query_usuarios_con_medios);
     }
 
     public function BuscarFrasTwitterMedios($frase='Hola')
