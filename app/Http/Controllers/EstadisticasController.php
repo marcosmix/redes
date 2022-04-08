@@ -153,4 +153,7 @@ class EstadisticasController extends Controller
         $listado['CantidadTotalWords'] = EstadisticasController::SumarCantidades($listado['words']);
         return $listado;
     }
+
+
+    
 }

@@ -127,7 +127,11 @@ class BusquedasController extends Controller
         //agregar resultados de medios ------------------------------------------
        
        
-        $query_usuarios_con_medios['listadoMedios']= $this->BuscarFrasTwitterMedios($frase_medios);
+        $query_usuarios_con_medios+= $this->BuscarFrasTwitterMedios($frase_medios);
+
+
+
+
         return response()->json($query_usuarios_con_medios);
     }
 
@@ -146,8 +150,13 @@ class BusquedasController extends Controller
         }
 
 
+        $listado_resultados_medios= $ControlMedios->FitrarPorBuscqueda($frase);
+        
+        
 
-        return $ControlMedios->FitrarPorBuscqueda($frase);
+        $data = ['listadoMedios' => $listado_resultados_medios, 'estadisticaMedios' => $ControlMedios->Estadisitcas($listado_resultados_medios)];
+        
+         return $data;
     }
    
 

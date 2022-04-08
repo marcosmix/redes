@@ -33,6 +33,22 @@ class Tratamiento extends Controller{
         return $conteo_palabras;
     }
 
+    static public function ContarPalabrasMedios($query, $conteo_palabras = [])
+    {
+        foreach ($query as $tw) {
+          
+            $text = explode(" ", strtolower($tw['cuerpo']));
+
+            foreach ($text as $palabra)
+                if (!array_key_exists($palabra, $conteo_palabras))
+                    $conteo_palabras[$palabra] = 1;
+                else
+                    $conteo_palabras[$palabra] += 1;
+        }
+
+        return $conteo_palabras;
+    }
+
     static public function Hashctac($array)
     {
         $hashtac=array();
@@ -42,13 +58,7 @@ class Tratamiento extends Controller{
         return $hashtac;
     }
 
-    static public function mm_numero($mes)
-    {
-        switch($mes)
-        {
-
-        }
-    }
+  
     static public function FormateoFecha($fecha)
     {
         $fecha=new DateTime($fecha);
@@ -150,62 +160,12 @@ class Tratamiento extends Controller{
             ];
         
         
-        $listadoMedios=[
-            [
-                'id_twitt' => "DiarioDeCuyo",
-                'id_user' => 123123,
-                'url' =>'ww.com',
-                'url_user' => "user",
-                'cuerpo' => 'Noticia - cuerpo',
-                'menciones' => 'mencion',
-                'hashtag' => 'hola',
-                'fecha' => '16/03/22',
-                'id_str' => 'asd32r3s',
-                'name' => 'name',
-                'name_screen' => 'name',
-                'foto_perfil' => 'no',
-                'retweet' => '123',
-                'likes' => '230',
-
-            ],
-             [
-                'id_twitt' => "Clarin",
-                'id_user' => 123123,
-                'url' =>'ww.com',
-                'url_user' => "user",
-                'cuerpo' => 'Noticia - cuerpo',
-                'menciones' => 'mencion',
-                'hashtag' => 'hola',
-                'fecha' => '16/03/22',
-                'id_str' => 'asd32r3s',
-                'name' => 'name',
-                'name_screen' => 'name',
-                'foto_perfil' => 'no',
-                'retweet' => '123',
-                'likes' => '230',
-
-             ],
-            [
-                'id_twitt' => "Nacion",
-                'id_user' => 123123,
-                'url' => 'ww.com',
-                'url_user' => "user",
-                'cuerpo' => 'Noticia - cuerpo',
-                'menciones' => 'mencion',
-                'hashtag' => 'hola',
-                'fecha' => '16/03/22',
-                'id_str' => 'asd32r3s',
-                'name' => 'name',
-                'name_screen' => 'name',
-                'foto_perfil' => 'no',
-                'retweet' => '123',
-                'likes' => '230',
-
-            ]
-            ];
+      
 
         $data=['listadoTwitter'=>$consulta_tratada,'estadistica'=>$estadistica];
         //return $consulta_tratada;
+    
+        
         return $data;
     }
 
