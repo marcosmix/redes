@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use App\Http\Controllers\Tratamiento;
+
+
 class Medios
 {
     private $listadoDeTwits;
